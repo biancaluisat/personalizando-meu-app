@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "bianca-legal",
+    "slug": "bianca-legal",
+    "scheme": "bianca-legal",
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
