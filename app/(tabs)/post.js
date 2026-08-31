@@ -22,9 +22,9 @@ const api = axios.create({
 
 export default function LivrosCriarScreen() {
     const [titulo, setTitulo] = useState("");
-    const [descricao, setDescricao] = useState("");
     const [imagemUrl, setImagemUrl] = useState("");
-    const [paginas, setPaginas] = useState("");
+    const [numero_paginas, setNumeroPaginas] = useState("");
+    const [ano_publicacao, setAnoPublicacao] = useState("");
     const [genero, setGenero] = useState("");
     const [autor, setAutor] = useState("");
 
@@ -38,25 +38,25 @@ export default function LivrosCriarScreen() {
 
         setEnviando(true);
         try {
-
-            const páginasFormatadas = parseInt(paginas, 10);
+            const numeroPaginasFormatadas = parseInt(numero_paginas, 10);
+            const anoFormatado = parseInt(ano_publicacao, 10);
 
             const resposta = await api.post("/api/livros", {
                 title: titulo,
-                description: descricao,
                 status: "Publicado",
                 imageUrl: imagemUrl,
                 autor,
-                paginas: isNaN(páginasFormatadas) ? 120 : páginasFormatadas,
+                numero_paginas: isNaN(numeroPaginasFormatadas) ? 120 : numeroPaginasFormatadas,
+                ano_publicacao: isNaN(anoFormatado) ? new Date().getFullYear() : anoFormatado,
                 genero,
             });
 
             Alert.alert("Livro criado!", resposta.data.title);
             setTitulo("");
-            setDescricao("");
             setImagemUrl("");
             setGenero("");
-            setPaginas("");
+            setNumeroPaginas("");
+            setAnoPublicacao("");
             setAutor("");
         } catch (e) {
             console.log("Erro da API:", e.response?.data || e.message);
@@ -85,14 +85,6 @@ export default function LivrosCriarScreen() {
                     placeholder="Ex: Fantasma da Ópera"
                 />
 
-                <Text style={styles.rotulo}>Descrição</Text>
-                <TextInput
-                    style={styles.campo}
-                    value={descricao}
-                    onChangeText={setDescricao}
-                    placeholder="Ex: Um romance sobre um fantasma que assombra uma ópera."
-                />
-
                 <Text style={styles.rotulo}>URL da imagem</Text>
                 <TextInput
                     style={styles.campo}
@@ -114,9 +106,17 @@ export default function LivrosCriarScreen() {
                 <Text style={styles.rotulo}>Número de páginas</Text>
                 <TextInput
                     style={styles.campo}
-                    value={paginas}
-                    onChangeText={setPaginas}
+                    value={numero_paginas}
+                    onChangeText={setNumeroPaginas}
                     placeholder="Ex: 320"
+                />
+
+                <Text style={styles.rotulo}>Ano de publicação</Text>
+                <TextInput
+                    style={styles.campo}
+                    value={ano_publicacao}
+                    onChangeText={setAnoPublicacao}
+                    placeholder="Ex: 1869"
                 />
 
                 <Text style={styles.rotulo}>Autor(a)</Text>
