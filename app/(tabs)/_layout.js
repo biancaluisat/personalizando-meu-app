@@ -54,6 +54,13 @@ export default function TabsLayout() {
           headerTitle: "Criar Livro",
         }}
       />
+      <Tabs.Screen
+        name="delete"
+        options={{
+          title: "delete",
+          headerTitle: "Excluir Livro",
+        }}
+      />
     </Tabs>
   );
 }
