@@ -27,13 +27,6 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="interface"
-        options={{
-          title: "interface",
-          headerTitle: "Conteúdo",
-        }}
-      />
-      <Tabs.Screen
         name="sobre"
         options={{
           title: "sobre",
@@ -59,6 +52,13 @@ export default function TabsLayout() {
         options={{
           title: "delete",
           headerTitle: "Excluir Livro",
+        }}
+      />
+      <Tabs.Screen
+        name="put"
+        options={{
+          title: "put",
+          headerTitle: "Atualizar Livro",
         }}
       />
     </Tabs>
