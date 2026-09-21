@@ -41,6 +41,13 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="getbyid"
+        options={{
+          title: "getbyid",
+          headerTitle: "Listar Livro por ID",
+        }}
+      />
+      <Tabs.Screen
         name="post"
         options={{
           title: "post",

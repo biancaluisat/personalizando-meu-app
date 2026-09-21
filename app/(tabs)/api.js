@@ -1,40 +1,40 @@
-import { React, useState, useEffect } from "react"
-import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from "react-native"
-import axios from "axios" 
-import { SafeAreaView } from "react-native-safe-area-context" 
+import { React, useState, useEffect } from 'react';
+import { View, Text, Image, ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
+import axios from 'axios';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const API_KEY = "cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9"
+const API_KEY = 'cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9';
 
 const api = axios.create({
-    baseURL: "https://api-ds.codeverse.dev.br",
+    baseURL: 'https://api-ds.codeverse.dev.br',
     headers: {
-        "x-api-key": API_KEY 
-    }
-})
+        'x-api-key': API_KEY,
+    },
+});
 
 export default function HeroisListarScreen() {
-    const [herois, setHerois] = useState([])
-    const [carregando, setCarregando] = useState(true)
-    const [erro, setErro] = useState(null)
+    const [herois, setHerois] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState(null);
 
     async function buscarHerois() {
-        setCarregando(true)
-        setErro(null)
+        setCarregando(true);
+        setErro(null);
         try {
-            const resposta = await api.get("/api/livros", {
-                params: { limit: 50 }
-            })
-            setHerois(resposta.data.data)
+            const resposta = await api.get('/api/livros', {
+                params: { limit: 50 },
+            });
+            setHerois(resposta.data.data);
         } catch (error) {
-            setErro("Não foi possivel carregar livros")
+            setErro('Não foi possivel carregar livros');
         } finally {
-            setCarregando(false)
+            setCarregando(false);
         }
     }
 
     useEffect(() => {
-        buscarHerois()
-    }, [])
+        buscarHerois();
+    }, []);
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -66,23 +66,23 @@ export default function HeroisListarScreen() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: "#f8fbff" }, // ocupa a tela toda, cor de fundo clara
+    safeArea: { flex: 1, backgroundColor: '#f8fbff' }, // ocupa a tela toda, cor de fundo clara
     conteudo: { padding: 24, paddingBottom: 48 }, // respiro nas bordas do conteúdo
     header: { marginBottom: 16 }, // espaço abaixo do cabeçalho
-    tituloPagina: { fontSize: 24, fontWeight: "800", color: "#7c3ca1" }, // título grande e escuro
-    subtitulo: { fontSize: 14, color: "#5f6b7a", marginTop: 2 }, // texto menor e mais claro, abaixo do título
+    tituloPagina: { fontSize: 24, fontWeight: '800', color: '#7c3ca1' }, // título grande e escuro
+    subtitulo: { fontSize: 14, color: '#5f6b7a', marginTop: 2 }, // texto menor e mais claro, abaixo do título
 
-    erro: { color: "#c62828", marginTop: 12 }, // texto de erro em vermelho
+    erro: { color: '#c62828', marginTop: 12 }, // texto de erro em vermelho
     card: {
-        flexDirection: "row", // imagem e texto lado a lado
+        flexDirection: 'row', // imagem e texto lado a lado
         gap: 12, // espaço entre imagem e texto
         marginTop: 12, // espaço entre um card e outro
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 10, // cantos arredondados
-        overflow: "hidden", // corta a imagem nos cantos arredondados do card
+        overflow: 'hidden', // corta a imagem nos cantos arredondados do card
     },
     imagem: { width: 64, height: 64 }, // tamanho fixo da foto do herói
-    info: { flex: 1, justifyContent: "center", paddingRight: 12 }, // ocupa o espaço que sobra ao lado da imagem
-    titulo: { fontSize: 16, fontWeight: "700" }, // nome do herói em destaque
-    categoria: { fontSize: 13, color: "#64748b" }, // categoria/ano em cinza, menor
+    info: { flex: 1, justifyContent: 'center', paddingRight: 12 }, // ocupa o espaço que sobra ao lado da imagem
+    titulo: { fontSize: 16, fontWeight: '700' }, // nome do herói em destaque
+    categoria: { fontSize: 13, color: '#64748b' }, // categoria/ano em cinza, menor
 });

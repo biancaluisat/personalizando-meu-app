@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -8,16 +8,16 @@ import {
     Alert,
     ActivityIndicator,
     ScrollView,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
-const API_KEY = "cv_4Wzbmq_cSP52WLG8CRjj1ipOGbM4G0kFgT-e39euq91PKudf84jTsW3omAWsBsIO";
+const API_KEY = 'cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9';
 
 const api = axios.create({
-    baseURL: "https://api-ds.codeverse.dev.br",
+    baseURL: 'https://api-ds.codeverse.dev.br',
     headers: {
-        "x-api-key": API_KEY,
+        'x-api-key': API_KEY,
     },
 });
 
@@ -32,12 +32,12 @@ export default function LivrosExcluirScreen() {
         setCarregando(true);
         setErro(null);
         try {
-            const resposta = await api.get("/api/livros", {
+            const resposta = await api.get('/api/livros', {
                 params: { limit: 50 },
             });
             setLivros(resposta.data.data);
         } catch (e) {
-            setErro("Não foi possível carregar os heróis. Tenta de novo em instantes.");
+            setErro('Não foi possível carregar os livros. Tenta de novo em instantes.');
         } finally {
             setCarregando(false);
         }
@@ -54,8 +54,8 @@ export default function LivrosExcluirScreen() {
             setLivros((atual) => atual.filter((item) => item.id !== id));
         } catch (e) {
             Alert.alert(
-                "Não deu pra excluir o livro",
-                "A API respondeu com erro. Tenta de novo em instantes."
+                'Não deu pra excluir o livro',
+                'A API respondeu com erro. Tenta de novo em instantes.',
             );
         } finally {
             setExcluindoId(null);
@@ -64,16 +64,16 @@ export default function LivrosExcluirScreen() {
 
     function confirmarExclusao(livro) {
         Alert.alert(
-            "Excluir livro",
+            'Excluir livro',
             `Tem certeza que quer excluir "${livro.title}" ? Essa ação não pode ser desfeita.`,
             [
-                { text: "Cancelar", style: "cancel" },
+                { text: 'Cancelar', style: 'cancel' },
                 {
-                    text: "Excluir",
-                    style: "destructive",
+                    text: 'Excluir',
+                    style: 'destructive',
                     onPress: () => excluirLivro(livro.id),
                 },
-            ]
+            ],
         );
     }
 
@@ -101,10 +101,9 @@ export default function LivrosExcluirScreen() {
                             <Pressable
                                 style={styles.botaoExcluir}
                                 onPress={() => confirmarExclusao(item)}
-                                disabled={excluindoId === item.id}
-                            >
+                                disabled={excluindoId === item.id}>
                                 <Text style={styles.botaoExcluirTexto}>
-                                    {excluindoId === item.id ? "..." : "Excluir"}
+                                    {excluindoId === item.id ? '...' : 'Excluir'}
                                 </Text>
                             </Pressable>
                         </View>
@@ -115,33 +114,33 @@ export default function LivrosExcluirScreen() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: "#f8fbff" },
+    safeArea: { flex: 1, backgroundColor: '#f8fbff' },
     conteudo: { padding: 24, paddingBottom: 48 },
     header: { marginBottom: 16 },
-    tituloPagina: { fontSize: 24, fontWeight: "800", color: "#7c3ca1" },
-    subtitulo: { fontSize: 14, color: "#5f6b7a", marginTop: 2 },
+    tituloPagina: { fontSize: 24, fontWeight: '800', color: '#7c3ca1' },
+    subtitulo: { fontSize: 14, color: '#5f6b7a', marginTop: 2 },
 
-    erro: { color: "#c62828", marginTop: 12 },
+    erro: { color: '#c62828', marginTop: 12 },
     card: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
         gap: 12,
         marginTop: 12,
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 10,
-        overflow: "hidden",
+        overflow: 'hidden',
         paddingRight: 12,
     },
     imagem: { width: 64, height: 64 },
-    info: { flex: 1, justifyContent: "center" },
-    titulo: { fontSize: 16, fontWeight: "700" },
-    categoria: { fontSize: 13, color: "#64748b" },
+    info: { flex: 1, justifyContent: 'center' },
+    titulo: { fontSize: 16, fontWeight: '700' },
+    categoria: { fontSize: 13, color: '#64748b' },
 
     botaoExcluir: {
-        backgroundColor: "#c62828",
+        backgroundColor: '#c62828',
         paddingHorizontal: 14,
         paddingVertical: 8,
         borderRadius: 8,
     },
-    botaoExcluirTexto: { color: "white", fontWeight: "700", fontSize: 13 },
+    botaoExcluirTexto: { color: 'white', fontWeight: '700', fontSize: 13 },
 });
