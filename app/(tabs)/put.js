@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Alert,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
+    View,
+    Text,
+    TextInput,
+    Pressable,
+    StyleSheet,
+    Alert,
+    ScrollView,
+    ActivityIndicator,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
 // Em produção, uma chave de API não deveria morar direto no código do
 // app (dá pra extrair de qualquer APK/IPA instalado). Aqui, como é uma
 // API pública de estudo, deixamos direto no código pra simplificar.
-const API_KEY = "cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9";
+const API_KEY = 'cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9';
 
 // Mesma instância do axios usada nas outras telas, com o header já
 // configurado — toda chamada feita com "api" já sai autenticada.
 const api = axios.create({
-  baseURL: "https://api-ds.codeverse.dev.br",
-  headers: {
-    "x-api-key": API_KEY,
-  },
+    baseURL: 'https://api-ds.codeverse.dev.br',
+    headers: {
+        'x-api-key': API_KEY,
+    },
 });
 
 // ---------- PUT: editar um livro existente ----------
@@ -31,217 +31,222 @@ const api = axios.create({
 // começa mostrando a lista e só depois de tocar em um item é que
 // aparece o formulário, já preenchido com os dados atuais.
 export default function LivrosEditarScreen() {
-  const [livros, setLivros] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+    const [livros, setLivros] = useState([]);
+    const [carregando, setCarregando] = useState(true);
+    const [erro, setErro] = useState(null);
 
-  // null = mostra a lista; objeto = mostra o formulário de edição
-  const [selecionado, setSelecionado] = useState(null);
+    // null = mostra a lista; objeto = mostra o formulário de edição
+    const [selecionado, setSelecionado] = useState(null);
 
-  const [titulo, setTitulo] = useState("");
-  const [imagemUrl, setImagemUrl] = useState("");
-  const [autor, setAutor] = useState("");
-  const [genero, setGenero] = useState("");
-  const [anoPublicacao, setAnoPublicacao] = useState("");
-  const [numeroPaginas, setNumeroPaginas] = useState("");
-  const [salvando, setSalvando] = useState(false);
+    const [titulo, setTitulo] = useState('');
+    const [imagemUrl, setImagemUrl] = useState('');
+    const [autor, setAutor] = useState('');
+    const [genero, setGenero] = useState('');
+    const [anoPublicacao, setAnoPublicacao] = useState('');
+    const [numeroPaginas, setNumeroPaginas] = useState('');
+    const [salvando, setSalvando] = useState(false);
 
-  async function buscarLivros() {
-    setCarregando(true);
-    setErro(null);
-    try {
-      const resposta = await api.get("/api/livros", {
-        params: { limit: 50 },
-      });
-      setLivros(resposta.data.data);
-    } catch (e) {
-      setErro("Não foi possível carregar os livros. Tenta de novo em instantes.");
-    } finally {
-      setCarregando(false);
-    }
-  }
-
-  useEffect(() => {
-    buscarLivros();
-  }, []);
-
-  function selecionarLivro(livro) {
-    setSelecionado(livro);
-    setTitulo(livro.title ?? "");
-    setImagemUrl(livro.imageUrl ?? "");
-    setAutor(livro.autor ?? "");
-    setGenero(livro.genero ?? "");
-    setAnoPublicacao(String(livro.ano_publicacao ?? ""));
-    setNumeroPaginas(String(livro.numero_paginas ?? ""));
-  }
-
-  async function salvarEdicao() {
-    if (!selecionado) return;
-    if (!titulo) {
-      Alert.alert("Preencha pelo menos o título.");
-      return;
+    async function buscarLivros() {
+        setCarregando(true);
+        setErro(null);
+        try {
+            const resposta = await api.get('/api/livros', {
+                params: { limit: 50 },
+            });
+            setLivros(resposta.data.data);
+        } catch (e) {
+            setErro('Não foi possível carregar os livros. Tenta de novo em instantes.');
+        } finally {
+            setCarregando(false);
+        }
     }
 
-    setSalvando(true);
-    try {
-      // PUT substitui o registro inteiro — mandamos todos os campos de
-      // novo. O id vai na URL, não no corpo.
-      const resposta = await api.put(`/api/livros/${selecionado.id}`, {
-        title: titulo,
-        imageUrl: imagemUrl,
-        autor,
-        genero,
-        ano_publicacao: anoPublicacao ? Number(anoPublicacao) : null,
-        numero_paginas: numeroPaginas ? Number(numeroPaginas) : null,
-      });
+    useEffect(() => {
+        buscarLivros();
+    }, []);
 
-      Alert.alert("Livro atualizado!", resposta.data.data.title);
-
-      setSelecionado(null);
-      buscarLivros();
-    } catch (e) {
-      Alert.alert(
-        "Não deu pra atualizar o livro",
-        "A API respondeu com erro. Confere se todos os campos estão certinhos e tenta de novo."
-      );
-    } finally {
-      setSalvando(false);
+    function selecionarLivro(livro) {
+        setSelecionado(livro);
+        setTitulo(livro.title ?? '');
+        setImagemUrl(livro.imageUrl ?? '');
+        setAutor(livro.autor ?? '');
+        setGenero(livro.genero ?? '');
+        setAnoPublicacao(String(livro.ano_publicacao ?? ''));
+        setNumeroPaginas(String(livro.numero_paginas ?? ''));
     }
-  }
 
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.conteudo}>
-        <View style={styles.header}>
-          <Text style={styles.tituloPagina}>Editar livro</Text>
-          <Text style={styles.subtitulo}>PUT /api/livros/:id</Text>
-        </View>
+    async function salvarEdicao() {
+        if (!selecionado) return;
+        if (!titulo) {
+            Alert.alert('Preencha pelo menos o título.');
+            return;
+        }
 
-        {!selecionado && (
-          <>
-            <Text style={styles.instrucao}>Toque em um livro pra editar:</Text>
+        setSalvando(true);
+        try {
+            // PUT substitui o registro inteiro — mandamos todos os campos de
+            // novo. O id vai na URL, não no corpo.
+            const resposta = await api.put(`/api/livros/${selecionado.id}`, {
+                title: titulo,
+                imageUrl: imagemUrl,
+                autor,
+                genero,
+                ano_publicacao: anoPublicacao ? Number(anoPublicacao) : null,
+                numero_paginas: numeroPaginas ? Number(numeroPaginas) : null,
+            });
 
-            {carregando && <ActivityIndicator style={{ marginVertical: 16 }} />}
-            {erro && <Text style={styles.erro}>{erro}</Text>}
+            Alert.alert('Livro atualizado!', resposta.data.data.title);
 
-            {!carregando &&
-              livros.map((item) => (
-                <Pressable key={item.id} style={styles.linha} onPress={() => selecionarLivro(item)}>
-                  <Text style={styles.linhaTitulo}>{item.title}</Text>
-                  <Text style={styles.linhaSeta}>editar ›</Text>
-                </Pressable>
-              ))}
-          </>
-        )}
+            setSelecionado(null);
+            buscarLivros();
+        } catch (e) {
+            Alert.alert(
+                'Não deu pra atualizar o livro',
+                'A API respondeu com erro. Confere se todos os campos estão certinhos e tenta de novo.',
+            );
+        } finally {
+            setSalvando(false);
+        }
+    }
 
-        {selecionado && (
-          <>
-            <Pressable onPress={() => setSelecionado(null)} style={styles.voltar}>
-              <Text style={styles.voltarTexto}>‹ voltar pra lista</Text>
-            </Pressable>
+    return (
+        <SafeAreaView style={styles.safeArea}>
+            <ScrollView contentContainerStyle={styles.conteudo}>
+                <View style={styles.header}>
+                    <Text style={styles.tituloPagina}>Editar livro</Text>
+                    <Text style={styles.subtitulo}>PUT /api/livros/:id</Text>
+                </View>
 
-            <Text style={styles.rotulo}>Título</Text>
-            <TextInput
-              style={styles.campo}
-              value={titulo}
-              onChangeText={setTitulo}
-              placeholder="Ex: 1984"
-            />
+                {!selecionado && (
+                    <>
+                        <Text style={styles.instrucao}>Toque em um livro pra editar:</Text>
 
-            <Text style={styles.rotulo}>URL da imagem</Text>
-            <TextInput
-              style={styles.campo}
-              value={imagemUrl}
-              onChangeText={setImagemUrl}
-              placeholder="Ex: https://exemplo.com/1984.jpg"
-            />
+                        {carregando && <ActivityIndicator style={{ marginVertical: 16 }} />}
+                        {erro && <Text style={styles.erro}>{erro}</Text>}
 
-            <Text style={styles.rotulo}>Autor do livro</Text>
-            <TextInput
-              style={styles.campo}
-              value={autor}
-              onChangeText={setAutor}
-              placeholder="Ex: George Orwell"
-            />
+                        {!carregando &&
+                            livros.map((item) => (
+                                <Pressable
+                                    key={item.id}
+                                    style={styles.linha}
+                                    onPress={() => selecionarLivro(item)}>
+                                    <Text style={styles.linhaTitulo}>{item.title}</Text>
+                                    <Text style={styles.linhaSeta}>editar ›</Text>
+                                </Pressable>
+                            ))}
+                    </>
+                )}
 
-            <Text style={styles.rotulo}>Gênero principal do livro</Text>
-            <TextInput
-              style={styles.campo}
-              value={genero}
-              onChangeText={setGenero}
-              placeholder="Ex: Distopia"
-            />
+                {selecionado && (
+                    <>
+                        <Pressable onPress={() => setSelecionado(null)} style={styles.voltar}>
+                            <Text style={styles.voltarTexto}>‹ voltar pra lista</Text>
+                        </Pressable>
 
-            <Text style={styles.rotulo}>Ano de publicação</Text>
-            <TextInput
-              style={styles.campo}
-              value={anoPublicacao}
-              onChangeText={setAnoPublicacao}
-              placeholder="Ex: 1949"
-              keyboardType="numeric"
-            />
+                        <Text style={styles.rotulo}>Título</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={titulo}
+                            onChangeText={setTitulo}
+                            placeholder="Ex: 1984"
+                        />
 
-            <Text style={styles.rotulo}>Quantidade de páginas</Text>
-            <TextInput
-              style={styles.campo}
-              value={numeroPaginas}
-              onChangeText={setNumeroPaginas}
-              placeholder="Ex: 320"
-              keyboardType="numeric"
-            />
+                        <Text style={styles.rotulo}>URL da imagem</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={imagemUrl}
+                            onChangeText={setImagemUrl}
+                            placeholder="Ex: https://exemplo.com/1984.jpg"
+                        />
 
-            <Pressable style={styles.botao} onPress={salvarEdicao} disabled={salvando}>
-              <Text style={styles.botaoTexto}>{salvando ? "Salvando..." : "Salvar alterações"}</Text>
-            </Pressable>
-          </>
-        )}
-      </ScrollView>
-    </SafeAreaView>
-  );
+                        <Text style={styles.rotulo}>Autor do livro</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={autor}
+                            onChangeText={setAutor}
+                            placeholder="Ex: George Orwell"
+                        />
+
+                        <Text style={styles.rotulo}>Gênero principal do livro</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={genero}
+                            onChangeText={setGenero}
+                            placeholder="Ex: Distopia"
+                        />
+
+                        <Text style={styles.rotulo}>Ano de publicação</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={anoPublicacao}
+                            onChangeText={setAnoPublicacao}
+                            placeholder="Ex: 1949"
+                            keyboardType="numeric"
+                        />
+
+                        <Text style={styles.rotulo}>Quantidade de páginas</Text>
+                        <TextInput
+                            style={styles.campo}
+                            value={numeroPaginas}
+                            onChangeText={setNumeroPaginas}
+                            placeholder="Ex: 320"
+                            keyboardType="numeric"
+                        />
+
+                        <Pressable style={styles.botao} onPress={salvarEdicao} disabled={salvando}>
+                            <Text style={styles.botaoTexto}>
+                                {salvando ? 'Salvando...' : 'Salvar alterações'}
+                            </Text>
+                        </Pressable>
+                    </>
+                )}
+            </ScrollView>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#f8fbff" },
-  conteudo: { padding: 24, paddingBottom: 48 },
-  header: { marginBottom: 16 },
-  tituloPagina: { fontSize: 24, fontWeight: "800", color: "#102542" },
-  subtitulo: { fontSize: 14, color: "#5f6b7a", marginTop: 2 },
+    safeArea: { flex: 1, backgroundColor: '#f8fbff' },
+    conteudo: { padding: 24, paddingBottom: 48 },
+    header: { marginBottom: 16 },
+    tituloPagina: { fontSize: 24, fontWeight: '800', color: '#102542' },
+    subtitulo: { fontSize: 14, color: '#5f6b7a', marginTop: 2 },
 
-  instrucao: { fontSize: 14, color: "#334155", marginBottom: 8 },
-  erro: { color: "#c62828", marginTop: 12 },
+    instrucao: { fontSize: 14, color: '#334155', marginBottom: 8 },
+    erro: { color: '#c62828', marginTop: 12 },
 
-  linha: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    paddingVertical: 14,
-    marginBottom: 8,
-  },
-  linhaTitulo: { fontSize: 15, fontWeight: "700", color: "#102542" },
-  linhaSeta: { fontSize: 13, color: "#1565c0", fontWeight: "600" },
+    linha: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 14,
+        paddingVertical: 14,
+        marginBottom: 8,
+    },
+    linhaTitulo: { fontSize: 15, fontWeight: '700', color: '#102542' },
+    linhaSeta: { fontSize: 13, color: '#1565c0', fontWeight: '600' },
 
-  voltar: { marginBottom: 16 },
-  voltarTexto: { color: "#1565c0", fontWeight: "700" },
+    voltar: { marginBottom: 16 },
+    voltarTexto: { color: '#1565c0', fontWeight: '700' },
 
-  rotulo: { fontSize: 13, fontWeight: "600", color: "#334155", marginBottom: 4 },
-  campo: {
-    borderWidth: 1,
-    borderColor: "#cbd5e1",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    marginBottom: 12,
-    backgroundColor: "white",
-  },
-  botao: {
-    backgroundColor: "#1565c0",
-    paddingVertical: 14,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 4,
-  },
-  botaoTexto: { color: "white", fontWeight: "700" },
+    rotulo: { fontSize: 13, fontWeight: '600', color: '#334155', marginBottom: 4 },
+    campo: {
+        borderWidth: 1,
+        borderColor: '#cbd5e1',
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        marginBottom: 12,
+        backgroundColor: 'white',
+    },
+    botao: {
+        backgroundColor: '#1565c0',
+        paddingVertical: 14,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginTop: 4,
+    },
+    botaoTexto: { color: 'white', fontWeight: '700' },
 });

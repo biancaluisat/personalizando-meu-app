@@ -388,3 +388,16 @@
 {"_e":"metro:config","_t":1790007015797,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
 {"_e":"expo:dev-tools-plugin:load","_t":1790007016009,"plugins":[]}
 {"_e":"metro:instantiate","_t":1790007019597,"atlas":false,"workers":12,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1790007094572,"id":"5","platform":"ios","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1790007094574,"id":"5","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1790007094579,"id":"5","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1790007094679,"id":"5","progress":0.18668035207939507,"total":368,"current":159}
+{"_e":"metro:bundling:progress","_t":1790007094779,"id":"5","progress":0.3646301775147929,"total":780,"current":471}
+{"_e":"metro:bundling:progress","_t":1790007094879,"id":"5","progress":0.6251647024081183,"total":965,"current":763}
+{"_e":"metro:bundling:progress","_t":1790007094979,"id":"5","progress":0.8937053984138817,"total":1153,"current":1090}
+{"_e":"metro:bundling:done","_t":1790007095073,"id":"5","total":1153,"ms":499.4544}
+{"_e":"metro:client_log","_t":1790007096347,"level":"warn","data":["[Layout children]: No route named \"getbyid\" exists in nested children:","[\"api\", \"aulas\", \"delete\", \"getById\", \"index\", \"post\", \"put\", \"sobre\"]"]}
+{"_e":"metro:bundling:started","_t":1790007473436,"id":"9","platform":"ios","environment":null,"entry":"node_modules\\expo-router\\entry.js"}
+{"_e":"metro:bundling:progress","_t":1790007473436,"id":"9","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1790007473466,"id":"9","total":1,"ms":30.3114}
+{"_e":"metro:client_log","_t":1790007474697,"level":"warn","data":["[Layout children]: No route named \"getbyid\" exists in nested children:","[\"api\", \"aulas\", \"delete\", \"getById\", \"index\", \"post\", \"put\", \"sobre\"]"]}

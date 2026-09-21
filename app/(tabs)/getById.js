@@ -34,13 +34,7 @@ export default function LivrosBuscarScreen() {
             setErro('Digite um id pra buscar.');
             return;
         }
-
-        Keyboard.dismiss();
-        setBuscando(true);
-        setErro(null);
-        setNaoEncontrado(false);
-        setLivro(null);
-
+        
         try {
             const resposta = await api.get(`/api/livros/${id}`);
             setLivro(resposta.data || null);
@@ -120,7 +114,7 @@ export default function LivrosBuscarScreen() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#cbdbe4',
+        backgroundColor: '#e4e4e4',
     },
 
     conteudo: {
@@ -135,7 +129,7 @@ const styles = StyleSheet.create({
     tituloPagina: {
         fontSize: 24,
         fontWeight: '800',
-        color: '#102542',
+        color: '#7c3ca1',
     },
 
     rotulo: {
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
     },
 
     botao: {
-        backgroundColor: '#102542',
+        backgroundColor: '#7c3ca1',
         paddingHorizontal: 18,
         paddingVertical: 10,
         borderRadius: 8,

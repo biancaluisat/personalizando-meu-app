@@ -1,38 +1,30 @@
-import { useState } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    Pressable,
-    StyleSheet,
-    Alert,
-    ScrollView,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
+import { useState } from 'react';
+import { View, Text, TextInput, Pressable, StyleSheet, Alert, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import axios from 'axios';
 
-const API_KEY = "cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9";
+const API_KEY = 'cv_LtatN28y_LDJGwwqnveCVdAUABBh3Lh5_6xyhMRQVh45T9cH2ZOYBZ9o7VZW0mj9';
 
 const api = axios.create({
-    baseURL: "https://api-ds.codeverse.dev.br",
+    baseURL: 'https://api-ds.codeverse.dev.br',
     headers: {
-        "x-api-key": API_KEY,
+        'x-api-key': API_KEY,
     },
 });
 
 export default function LivrosCriarScreen() {
-    const [titulo, setTitulo] = useState("");
-    const [imagemUrl, setImagemUrl] = useState("");
-    const [numero_paginas, setNumeroPaginas] = useState("");
-    const [ano_publicacao, setAnoPublicacao] = useState("");
-    const [genero, setGenero] = useState("");
-    const [autor, setAutor] = useState("");
+    const [titulo, setTitulo] = useState('');
+    const [imagemUrl, setImagemUrl] = useState('');
+    const [numero_paginas, setNumeroPaginas] = useState('');
+    const [ano_publicacao, setAnoPublicacao] = useState('');
+    const [genero, setGenero] = useState('');
+    const [autor, setAutor] = useState('');
 
     const [enviando, setEnviando] = useState(false);
 
     async function criarLivro() {
         if (!titulo) {
-            Alert.alert("Preencha pelo menos o título.");
+            Alert.alert('Preencha pelo menos o título.');
             return;
         }
 
@@ -41,9 +33,9 @@ export default function LivrosCriarScreen() {
             const numeroPaginasFormatadas = parseInt(numero_paginas, 10);
             const anoFormatado = parseInt(ano_publicacao, 10);
 
-            const resposta = await api.post("/api/livros", {
+            const resposta = await api.post('/api/livros', {
                 title: titulo,
-                status: "Publicado",
+                status: 'Publicado',
                 imageUrl: imagemUrl,
                 autor,
                 numero_paginas: isNaN(numeroPaginasFormatadas) ? 120 : numeroPaginasFormatadas,
@@ -51,19 +43,22 @@ export default function LivrosCriarScreen() {
                 genero,
             });
 
-            Alert.alert("Livro criado!", resposta.data.title);
-            setTitulo("");
-            setImagemUrl("");
-            setGenero("");
-            setNumeroPaginas("");
-            setAnoPublicacao("");
-            setAutor("");
+            Alert.alert('Livro criado!', resposta.data.title);
+            setTitulo('');
+            setImagemUrl('');
+            setGenero('');
+            setNumeroPaginas('');
+            setAnoPublicacao('');
+            setAutor('');
         } catch (e) {
-            console.log("Erro da API:", e.response?.data || e.message);
+            console.log('Erro da API:', e.response?.data || e.message);
 
-            const mensagemErro = e.response?.data?.message || e.response?.data?.error || "Verifique os dados enviados.";
+            const mensagemErro =
+                e.response?.data?.message ||
+                e.response?.data?.error ||
+                'Verifique os dados enviados.';
 
-            Alert.alert("Erro ao criar livro", mensagemErro);
+            Alert.alert('Erro ao criar livro', mensagemErro);
         } finally {
             setEnviando(false);
         }
@@ -128,7 +123,9 @@ export default function LivrosCriarScreen() {
                 />
 
                 <Pressable style={styles.botao} onPress={criarLivro} disabled={enviando}>
-                    <Text style={styles.botaoTexto}>{enviando ? "Enviando..." : "Criar livro"}</Text>
+                    <Text style={styles.botaoTexto}>
+                        {enviando ? 'Enviando...' : 'Criar livro'}
+                    </Text>
                 </Pressable>
             </ScrollView>
         </SafeAreaView>
@@ -136,34 +133,34 @@ export default function LivrosCriarScreen() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: "#f8fbff" },
+    safeArea: { flex: 1, backgroundColor: '#f8fbff' },
     conteudo: { padding: 24, paddingBottom: 48 },
     header: { marginBottom: 16 },
-    tituloPagina: { fontSize: 24, fontWeight: "800", color: "#7c3ca1" },
-    subtitulo: { fontSize: 14, color: "#5f6b7a", marginTop: 2 },
+    tituloPagina: { fontSize: 24, fontWeight: '800', color: '#7c3ca1' },
+    subtitulo: { fontSize: 14, color: '#5f6b7a', marginTop: 2 },
     secao: {
         fontSize: 14,
-        fontWeight: "700",
-        color: "#102542",
+        fontWeight: '700',
+        color: '#102542',
         marginTop: 8,
         marginBottom: 8,
     },
 
-    rotulo: { fontSize: 13, fontWeight: "600", color: "#334155", marginBottom: 4 },
+    rotulo: { fontSize: 13, fontWeight: '600', color: '#334155', marginBottom: 4 },
     campo: {
         borderWidth: 1,
-        borderColor: "#cbd5e1",
+        borderColor: '#cbd5e1',
         borderRadius: 8,
         paddingHorizontal: 12,
         paddingVertical: 10,
         marginBottom: 12,
-        backgroundColor: "white",
+        backgroundColor: 'white',
     },
     botao: {
-        backgroundColor: "#7c3ca1",
+        backgroundColor: '#7c3ca1',
         paddingVertical: 14,
         borderRadius: 10,
-        alignItems: "center",
+        alignItems: 'center',
     },
-    botaoTexto: { color: "white", fontWeight: "700" },
+    botaoTexto: { color: 'white', fontWeight: '700' },
 });
